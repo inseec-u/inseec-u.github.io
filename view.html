@@ -1,0 +1,16 @@
+inputFile = "c:\scripts\myfile.txt"
+outputFile = "c:\scripts\myfile2.bin"
+Set fso = CreateObject("Scripting.Filesystemobject")
+Set input=fso.OpenTextFile(inputFile,1)
+contents = input.ReadAll()
+input.Close
+ 
+Set oXML = CreateObject("Msxml2.DOMDocument")
+Set oNode = oXML.CreateElement("base64")
+oNode.dataType = "bin.base64"
+oNode.text = contents
+Set BinaryStream = CreateObject("ADODB.Stream")
+BinaryStream.Type = 1 'adTypeBinary
+BinaryStream.Open
+BinaryStream.Write oNode.nodeTypedValue
+BinaryStream.SaveToFile outputFile
